@@ -34,13 +34,14 @@
 
 
 int lengthOfLongestSubstring(char* s) {
-	int indx1 = 0;
-	int indx2 = 0;
-	int alphabet[127] = {}; /*alphabet the size of the unicode table to be compatable with any unicode character*/
-	int max = 0;
+	int indx1 = 0; /*index for the begining of the substring*/
+	int indx2 = 0; /*index for the end of a substring*/
+	int alphabet[127] = {}; /*bitmap for all unicode characters sorted by unicode index*/
+	int max = 0; /*max substring length*/
 
 	alphabet[s[indx1]] = 1;
 	
+	/*prints out bitmap for debugging*/
 /*	printf("alphabet: ");
 	int i;
 	for (i=0; i<127; i++) {
@@ -51,17 +52,21 @@ int lengthOfLongestSubstring(char* s) {
 	printf("\n");
 
 */	while (s[indx2] != '\0') {
-		if (indx1 == indx2) {
+		/*incrament second index if indexes are equal*/
+		if (indx1 == indx2) { 
 			indx2++;
 		}
-		else if (s[indx1] == s[indx2]) {
+		/*incrament index 1 when index 2 reaches the same character*/
+		else if (s[indx1] == s[indx2]) { 
 			indx1++;
 		}
-		else if (alphabet[s[indx2]] == 1) {
+		/*when the character at index 2 move index 1 after the repeated character and unmark all characters in between*/
+		else if (alphabet[s[indx2]] == 1) { 
 			alphabet[s[indx1]] = 0;
 			indx1++;	
 		}
-		else {
+		/*moves index 2 and records character*/
+		else { 
 			alphabet[s[indx2]] = 1;
 			indx2++;
 		}
@@ -70,6 +75,7 @@ int lengthOfLongestSubstring(char* s) {
 		if (max < size) {
 			max = size;
 		}
+		/*prints out bitmap for debugging*/
 /*		printf("indx1: %d, indx2: %d \n", indx1, indx2);
 
 		int i;
